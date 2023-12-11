@@ -6,7 +6,9 @@ import { deleteImage } from '../helper/deleteImageHelper'
 import { Users } from '../models/userSchema'
 import {
   createUser,
+  forgetPasswordAction,
   getUser,
+  resstPasswordAction,
   sendToken,
   updateBanStatusByUserName,
   userActivate,
@@ -158,6 +160,33 @@ export const updateSingleUser = async (req: Request, res: Response, next: NextFu
       payload: user,
     })
     return
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const forgetPassword = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { email } = req.body
+    const token = await forgetPasswordAction(email)
+    res.status(200).json({
+      message: 'Check your email to rest your pawword',
+      token,
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+export const resetPassword = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const token = req.body.token
+    const password = req.body.password
+
+    const user = await resstPasswordAction(token, password)
+
+    res.status(200).json({
+      message: 'The password has been reset successfully',   
+    }) 
   } catch (error) {
     next(error)
   }

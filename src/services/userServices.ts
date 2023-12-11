@@ -1,11 +1,13 @@
 import { NextFunction, Request, Response } from 'express'
-import jwt from 'jsonwebtoken'
+import jwt, { JwtPayload } from 'jsonwebtoken'
+import bcrypt from 'bcrypt'
 
 import { dev } from '../config'
 import { handleSendEmail } from '../helper/sendEmail'
 import { Users } from '../models/userSchema'
-import { IUser } from '../types/userTypes'
+import { IUser, EmailDataType } from '../types/userTypes'
 import { createHttpError } from '../util/createHTTPError'
+import { generateJwtToken, verifyJwtToken } from '../util/jwtToken'
 
 export const sendToken = async (req: Request, res: Response, next: NextFunction) => {
   const { firstName, lastName, userName, email, password } = req.body
@@ -108,5 +110,50 @@ export const updateBanStatusByUserName = async (
     const error = createHttpError(404, 'The User not found')
     throw error
   }
+  return user
+}
+
+export const forgetPasswordAction = async (email: string): Promise<string> => {
+  const user = await Users.findOne({ email })
+  if (!user) {
+    //create http error ,status 404
+    const error = createHttpError(404, 'User not found')
+    throw error
+  }
+  const token = generateJwtToken({ email: email }, dev.app.jwtResetPasswordKey, '10m')
+  const emailData = {
+    email: email,
+    subject: 'Rest Password Email',
+    html: `<h1>Hello ${user.firstName}</h1>
+      <p>Please Click here to  : <a href="http://localhost:5050/users/rest-password/${token}"> rest  your password</a></p>`,
+  }
+  //send email
+  await handleSendEmail(emailData)
+  return token
+}
+
+export const resstPasswordAction = async (token: '', password: string) => {
+  const decoded = verifyJwtToken(token, dev.app.jwtResetPasswordKey) as JwtPayload
+
+  const hashedPassword = await bcrypt.hash(password, 10)
+
+  if (!token) {
+    throw createHttpError(401, 'Plase Enter Valid Token ')
+  }  
+  // Check if the decoded value is falsy
+  if (!decoded) {
+    throw createHttpError(401, 'Token is Invalid ')
+  }
+  // Update the user's password in the database
+  const user = await Users.findOneAndUpdate(
+    { email: decoded.email },
+    { $set: { password: hashedPassword } },
+    { new: true }
+  )
+  // Check if the user was not found
+  if (!user) {
+    throw createHttpError(401, 'The password reset was unsuccessfully  ')
+  }
+  // Return the updated user
   return user
 }
