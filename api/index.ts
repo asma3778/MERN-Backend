@@ -13,12 +13,13 @@ import { createHttpError } from '../src/util/createHTTPError'
 
 const app: Application = express()
 
-// const port: number = dev.app.port || 3003
+const port: number = dev.app.port || 3003
 
-// app.listen(port, () => {
-//   console.log(`Server is running at http://localhost:${port}`)
-// })
-  connectDB()
+connectDB()
+app.listen(port, () => {
+  console.log(`Server is running at http://localhost:${port}`)
+})
+  
 
 app.use(cookieParser())
 app.use(express.json())

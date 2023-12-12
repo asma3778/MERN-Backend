@@ -43,7 +43,7 @@ const usersSchema = new Schema(
       unique: true,
       trim: true,
       minlength: [6, 'Last name must be at least 6 characters'],
-      // set: (password: string) => bcrybt.hashSync(password, 10),
+      set: (password: string) => bcrybt.hashSync(password, 10),
     },
     image: {
       type: String,

@@ -31,7 +31,9 @@ router.get('/', isLoggedIn, isAdmin, getAllUsers)
 
 router.get('/:userName', isLoggedIn, getSingleUser)
 
-router.post('/', validateCreateUser, runValidation, uploadUser.single('image'), createSingleUser)
+router.post('/', 
+// validateCreateUser, 
+runValidation, uploadUser.single('image'), createSingleUser)
 
 router.delete('/:userName', isLoggedIn, isAdmin, deleteSingleUser)
 
