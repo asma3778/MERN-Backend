@@ -1,15 +1,15 @@
 import cookieParser from 'cookie-parser'
 import express, { Application, Request, Response } from 'express'
 
-import { dev } from '../config'
-import { connectDB } from '../config/db'
-import { errorHandler } from '../middlewares/errorHandler'
-import authRoute from '../routers/authRoute'
-import categoriesRouter from '../routers/categoryRoute'
-import ordersRouter from '../routers/orderRoute'
-import productRoute from '../routers/productRoute'
-import usersRouter from '../routers/userRoute'
-import { createHttpError } from '../util/createHTTPError'
+import { dev } from '../src/config'
+import { connectDB } from '../src/config/db'
+import { errorHandler } from '../src/middlewares/errorHandler'
+import authRoute from '../src/routers/authRoute'
+import categoriesRouter from '../src/routers/categoryRoute'
+import ordersRouter from '../src/routers/orderRoute'
+import productRoute from '../src/routers/productRoute'
+import usersRouter from '../src/routers/userRoute'
+import { createHttpError } from '../src/util/createHTTPError'
 
 const app: Application = express()
 
