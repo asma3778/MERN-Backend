@@ -14,6 +14,6 @@ export const dev = {
     JWT_SECRET: process.env.JWT_SECRET || 'JWT_SECRET',
   },
   db: {
-    url: process.env.MONGODB_URL || 'mongodb+srv://asma:asmasaad@cluster0.tnjjlwk.mongodb.net/fullstackdb',
+    url: process.env.MONGODB_URL || '',
   },
 }
