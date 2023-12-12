@@ -116,7 +116,6 @@ export const updateBanStatusByUserName = async (
 export const forgetPasswordAction = async (email: string): Promise<string> => {
   const user = await Users.findOne({ email })
   if (!user) {
-    //create http error ,status 404
     const error = createHttpError(404, 'User not found')
     throw error
   }
@@ -127,7 +126,6 @@ export const forgetPasswordAction = async (email: string): Promise<string> => {
     html: `<h1>Hello ${user.firstName}</h1>
       <p>Please Click here to  : <a href="http://localhost:5050/users/rest-password/${token}"> rest  your password</a></p>`,
   }
-  //send email
   await handleSendEmail(emailData)
   return token
 }
@@ -140,20 +138,16 @@ export const resstPasswordAction = async (token: '', password: string) => {
   if (!token) {
     throw createHttpError(401, 'Plase Enter Valid Token ')
   }  
-  // Check if the decoded value is falsy
   if (!decoded) {
     throw createHttpError(401, 'Token is Invalid ')
   }
-  // Update the user's password in the database
   const user = await Users.findOneAndUpdate(
     { email: decoded.email },
     { $set: { password: hashedPassword } },
     { new: true }
   )
-  // Check if the user was not found
   if (!user) {
     throw createHttpError(401, 'The password reset was unsuccessfully  ')
   }
-  // Return the updated user
   return user
 }

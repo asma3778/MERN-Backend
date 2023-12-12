@@ -21,7 +21,6 @@ export const handleLogin = async (req: Request, res: Response, next: NextFunctio
     if (!isPasswordMatch) {
       throw createHttpError(401, "Password doesn't match")
     }
-    console.log(password)
 
     if (user.isBanned) {
       throw createHttpError(403, 'User is banned, please contact support')
