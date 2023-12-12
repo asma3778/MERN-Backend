@@ -105,12 +105,12 @@
       "target": "ES6",
       "module": "commonjs",
       "outDir": "./dist",
-      "rootDir": "./src",
+    //   "rootDir": "./src",
       "strict": true,
       "esModuleInterop": true
   },
   "include": [
-      "src/**/*.ts"
+      "api/**/*.ts"
 , "api/index.ts"  ],
   "exclude": [
       "node_modules"
