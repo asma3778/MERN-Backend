@@ -21,16 +21,17 @@ connectDB()
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`)
 })  
+
+app.get('/', (req: Request, res: Response) => {
+  res.status(200).json('Backend project')
+})
+
 app.use(cors());
 app.use('/public', express.static('public'))
 app.use(cookieParser())
 app.use(morgan('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-
-app.get('/', (req: Request, res: Response) => {
-  res.status(200).json('Backend project')
-})
 
 app.use('/products', productRoute)
 app.use('/orders', ordersRouter)
@@ -41,4 +42,5 @@ app.use('/auth', authRoute)
 app.use((req, res, next) => {
   next(createHttpError(404, 'Route Not Found'))
 })
+
 app.use(errorHandler)

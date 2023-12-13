@@ -21,30 +21,44 @@ const router = Router()
 
 router.post(
   '/process-register',
-  validateCreateUser,
+  // validateCreateUser,
   uploadUser.single('image'),
-  isLoggedOut,
+  // isLoggedOut,
   processRegisterUser
 )
 
-router.get('/', isLoggedIn, isAdmin, getAllUsers)
+router.get('/',
+//  isLoggedIn, isAdmin,
+  getAllUsers)
 
-router.get('/:userName', isLoggedIn, getSingleUser)
+router.get('/:userName', 
+// isLoggedIn, 
+getSingleUser)
 
 router.post('/', 
 // validateCreateUser, 
-runValidation, uploadUser.single('image'), createSingleUser)
+// runValidation, 
+uploadUser.single('image'), 
+createSingleUser)
 
-router.delete('/:userName', isLoggedIn, isAdmin, deleteSingleUser)
+router.delete('/:userName', 
+// isLoggedIn, isAdmin, 
+deleteSingleUser)
 
 router.put('/:userName', updateSingleUser)
 
-router.post('/activate', isLoggedOut, activateUser)
+router.post('/activate', 
+// isLoggedOut,
+ activateUser)
 
 router.put('/updateBan/:userName', updateBan)
 
-router.post('/forget-password', isLoggedOut, forgetPassword)
+router.post('/forget-password', 
+// isLoggedOut,
+ forgetPassword)
 
-router.post('/reset-password', isLoggedOut, resetPassword)
+router.post('/reset-password',
+//  isLoggedOut, 
+ resetPassword)
 
 export default router

@@ -21,21 +21,23 @@ router.get('/:slug', getProductsBySlug)
 router.post(
   '/',
   //   validateCreateProduct,
-  isLoggedIn,
-  isAdmin,
-  runValidation,
+  // isLoggedIn,
+  // isAdmin,
+  // runValidation,
   uploadProduct.single('image'),
   createSingleProduct
 )
 
-router.delete('/:slug', isLoggedIn, isAdmin, deleteProductBySlug)
+router.delete('/:slug', 
+// isLoggedIn, isAdmin, 
+deleteProductBySlug)
 
 router.put(
   '/:slug',
   // validateUpdateProduct,
-  isLoggedIn,
-  isAdmin,
-  runValidation,
+  // isLoggedIn,
+  // isAdmin,
+  // runValidation,
   updateProductBySlug
 )
 

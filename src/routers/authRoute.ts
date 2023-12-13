@@ -5,7 +5,9 @@ import { isLoggedOut } from '../middlewares/auth'
 
 const router = Router()
 
-router.post('/login', isLoggedOut, handleLogin)
+router.post('/login', 
+// isLoggedOut,
+ handleLogin)
 
 router.post('/logout', handleLogout)
 
