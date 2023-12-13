@@ -1,5 +1,7 @@
 import cookieParser from 'cookie-parser'
 import express, { Application, Request, Response } from 'express'
+import cors from 'cors'
+import morgan from 'morgan'
 
 import { dev } from '../src/config'
 import { connectDB } from '../src/config/db'
@@ -19,9 +21,11 @@ connectDB()
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`)
 })
-  
 
+app.use('/public', express.static('public'))
+app.use(cors())
 app.use(cookieParser())
+app.use(morgan('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
