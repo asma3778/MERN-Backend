@@ -20,10 +20,9 @@ const port: number = dev.app.port || 3003
 connectDB()
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`)
-})
-
+})  
+app.use(cors());
 app.use('/public', express.static('public'))
-app.use(cors())
 app.use(cookieParser())
 app.use(morgan('dev'))
 app.use(express.json())
