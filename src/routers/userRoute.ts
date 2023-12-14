@@ -22,7 +22,7 @@ const router = Router()
 router.post(
   '/process-register',
   // validateCreateUser,
-  uploadUser.single('image'),
+  // uploadUser.single('image'),
   // isLoggedOut,
   processRegisterUser
 )

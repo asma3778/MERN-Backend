@@ -15,7 +15,7 @@ import { createHttpError } from '../src/util/createHTTPError'
 
 const app: Application = express()
 
-const port: number = dev.app.port || 3003
+const port: number = dev.app.port
 
 connectDB()
 app.listen(port, () => {

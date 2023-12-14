@@ -48,7 +48,7 @@ const usersSchema = new Schema(
     image: {
       type: String,
       default: dev.app.defaultUserImagePath,
-      required: true,
+      required: false,
     },
     isAdmin: {
       type: Boolean,

@@ -93,7 +93,6 @@ export const allUser = async (search: string) => {
   }
 
   const users = await Users.find(filter)
-
   return {
     users,
   }
