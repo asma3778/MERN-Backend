@@ -86,16 +86,35 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
   await new Users(user).save()
 }
 
-export const allUser = async (search: string) => {
-  const regExpSearch = new RegExp('.*' + search + '.*', 'i')
-  const filter = {
-    $or: [{ title: { $regex: regExpSearch } }, { description: { $regex: regExpSearch } }],
+export const findAllUsers = async (page = 1, limit = 3, search = '') => {
+  const count = await Users.countDocuments()
+  const totalPage = Math.ceil(count / limit)
+
+  let filter = {}
+  if (search) {
+    const searchRegExp = new RegExp('.*' + search + '.*', 'i')
+
+    filter = {
+      isAdmin: { $ne: true },
+      $or: [
+        { name: { $regex: searchRegExp } },
+        { email: { $regex: searchRegExp } },
+        { phone: { $regex: searchRegExp } },
+      ],
+    }
+  }
+  const options = { password: 0, __v: 0 }
+
+  if (page > totalPage) {
+    page = totalPage
   }
 
-  const users = await Users.find(filter)
-  return {
-    users,
-  }
+  const skip = (page - 1) * limit
+  const users: IUser[] = await Users.find(filter, options)
+    .skip(skip)
+    .limit(limit)
+    .sort({ createdAt: -1, name: 1 })
+  return { users, totalPage, currentPage: page }
 }
 
 export const updateBanStatusByUserName = async (

@@ -6,6 +6,7 @@ import { deleteImage } from '../helper/deleteImageHelper'
 import { Users } from '../models/userSchema'
 import {
   createUser,
+  findAllUsers,
   forgetPasswordAction,
   getUser,
   resstPasswordAction,
@@ -68,28 +69,12 @@ export const getAllUsers = async (req: Request, res: Response, next: NextFunctio
   try {
     let page = Number(req.query.page) || 1
     const limit = Number(req.query.limit) || 3
-    let search = req.query.search as string
+    const search = req.query.search as string
 
-    const regExpSearch = new RegExp('.*' + search + '.*', 'i')
-    const filter = {
-      $or: [{ firstName: { $regex: regExpSearch } }, { email: { $regex: regExpSearch } }],
-    }
-
-    const count = await Users.countDocuments()
-    const totalPages = Math.ceil(count / limit)
-
-    if (page > totalPages) {
-      page = totalPages
-    }
-    const skip = (page - 1) * limit
-    const users = await Users.find(filter).populate('orders').skip(skip).limit(limit)
+    const { users, totalPage, currentPage } = await findAllUsers(page, limit, search)
     res.status(200).send({
-      message: 'all users are returend',
-      payload: {
-        users,
-        currentPage: page,
-        totalPages,
-      },
+      message: 'return all users',
+      payload: { users, totalPage, currentPage },
     })
   } catch (error) {
     next(error)

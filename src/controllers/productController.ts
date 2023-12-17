@@ -4,29 +4,48 @@ import slugify from 'slugify'
 import { deleteImage } from '../helper/deleteImageHelper'
 import { Products } from '../models/productSchema'
 import {
-  AllProducts,
   createProduct,
+  findAllProducts,
   findProductBySlug,
   removeProductBySlug,
 } from '../services/productServices'
 import { createHttpError } from '../util/createHTTPError'
 
+// export const getAllProducts = async (req: Request, res: Response, next: NextFunction) => {
+//   try {
+//     let page = Number(req.query.page) || 1
+//     const limit = Number(req.query.limit) || 3
+//     let minPrice = Number(req.query.minPrice) || 0
+//     let maxPrice = Number(req.query.maxPrice) || 50000
+//     let search = req.query.search as string
+
+//     const result = await AllProducts(page, limit, minPrice, maxPrice, search)
+
+//     res.status(200).json({
+//       message: 'All products are returned',
+//       payload: {
+//         products: result.products,
+//         currentPage: result.currentPage,
+//         totalPages: result.totalPages,
+//       },
+//     })
+    
+//   } catch (error) {
+//     next(error)
+//   }
+// }
 export const getAllProducts = async (req: Request, res: Response, next: NextFunction) => {
   try {
     let page = Number(req.query.page) || 1
     const limit = Number(req.query.limit) || 3
-    let minPrice = Number(req.query.minPrice) || 0
-    let maxPrice = Number(req.query.maxPrice) || 50000
-    let search = req.query.search as string
-
-    const result = await AllProducts(page, limit, minPrice, maxPrice, search)
-
-    res.status(200).json({
-      message: 'All products are returned',
+    const search = req.query.search as string
+    const { products, totalPage, currentPage } = await findAllProducts(page, limit, search)
+    res.send({
+      message: 'return all products',
       payload: {
-        products: result.products,
-        currentPage: result.currentPage,
-        totalPages: result.totalPages,
+        products,
+        totalPage,
+        currentPage,
       },
     })
   } catch (error) {

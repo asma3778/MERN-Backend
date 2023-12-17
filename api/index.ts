@@ -24,7 +24,7 @@ app.listen(port, () => {
 
 app.get('/', (req: Request, res: Response) => {
   res.status(200).json('Backend project')
-})
+}) 
 
 app.use(cors());
 app.use('/public', express.static('public'))

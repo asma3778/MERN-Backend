@@ -23,41 +23,67 @@ export const removeProductBySlug = async (slug: string) => {
   return product
 }
 
-export const AllProducts = async (
-  page: number,
-  limit: number,
-  minPrice: number,
-  maxPrice: number,
-  search: string
-) => {
+export const findAllProducts = async (page = 1, limit = 3, search = '') => {
   const count = await Products.countDocuments()
-  const totalPages = Math.ceil(count / limit)
+  const totalPage = Math.ceil(count / limit)
+  const searchRegExp = new RegExp('.*' + search + '.*', 'i')
+  let filter = {}
+  if (search) {
+    const searchRegExp = new RegExp('.*' + search + '.*', 'i')
 
-  const regExpSearch = new RegExp('.*' + search + '.*', 'i')
-  const filter = {
-    $or: [{ title: { $regex: regExpSearch } }, { description: { $regex: regExpSearch } }],
+    filter = {
+    $or: [{ title: { $regex: searchRegExp } }, { description: { $regex: searchRegExp } }],
+    $and: [{ price: { $gt: 2000 } }, { price: { $lt: 3000 } }],
   }
-
-  if (page > totalPages) {
-    page = totalPages
+}
+  if (page > totalPage) {
+    page = totalPage
   }
 
   const skip = (page - 1) * limit
-  const products = await Products.find({
-    $and: [{ price: { $gt: minPrice } }, { price: { $lt: maxPrice } }],
-  })
-    .populate({ path: 'category', select: 'title' })
+  const products: IProduct[] = await Products.find(filter)
+    .populate('category')
     .skip(skip)
     .limit(limit)
-    .sort({ price: -1 })
-    .find(filter)
-
-  return {
-    products,
-    currentPage: page,
-    totalPages,
-  }
+    .sort({ price: 1 })
+  return { products, totalPage, currentPage: page }
 }
+
+// export const AllProducts = async (
+//   page: number,
+//   limit: number,
+//   minPrice: number,
+//   maxPrice: number,
+//   search: string
+// ) => {
+//   const count = await Products.countDocuments()
+//   const totalPages = Math.ceil(count / limit)
+
+//   const regExpSearch = new RegExp('.*' + search + '.*', 'i')
+//   const filter = {
+//     $or: [{ title: { $regex: regExpSearch } }, { description: { $regex: regExpSearch } }],
+//   }
+
+//   if (page > totalPages) {
+//     page = totalPages
+//   }
+
+//   const skip = (page - 1) * limit
+//   const products = await Products.find({
+//     $and: [{ price: { $gt: minPrice } }, { price: { $lt: maxPrice } }],
+//   })
+//     .populate({ path: 'category', select: 'title' })
+//     .skip(skip)
+//     .limit(limit)
+//     .sort({ price: -1 })
+//     .find(filter)
+
+//   return {
+//     products,
+//     currentPage: page,
+//     totalPages,
+//   }
+// }
 
 export const createProduct = async (req: Request, res: Response, next: NextFunction) => {
   const file = req.file
