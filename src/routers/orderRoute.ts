@@ -30,9 +30,11 @@ ordersRouter.delete('/:id([0-9a-fA-F]{24})',
 // isLoggedIn, isAdmin,
  deleteOrderById)
 
-ordersRouter.post('/', 
-// validatePlaceOrder, runValidation, isLoggedIn,
- placeNewOrder)
+ordersRouter.post('/',
+// validatePlaceOrder, runValidation, 
+isLoggedIn,
+placeNewOrder
+)
 
 ordersRouter.put('/:id([0-9a-fA-F]{24})',
 //  isLoggedIn, isAdmin,

@@ -78,19 +78,19 @@ export const deleteOrderById = async (req: Request, res: Response, next: NextFun
 export const placeNewOrder = async (req: CustomRequest, res: Response, next: NextFunction) => {
   try {
     const { orderItems } = req.body
+    console.log(req.userId)
 
     const userExsist = await checkUserExistById(String(req.userId))
 
     const { amount, totalProducts, updatedProducts } = await getOrderData(orderItems)
-
-    const newOrder: IOrder = new Order({
+    
+    const newOrder: IOrder = new Order({ 
       buyer: req.userId,
       orderItems,
       amount,
       totalProducts,
     })
     await newOrder.save()
-
     userExsist.orders.push(newOrder._id)
     await userExsist.save()
 
