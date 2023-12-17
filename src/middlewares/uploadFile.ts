@@ -20,8 +20,8 @@ const userStorage = multer.diskStorage({
 })
 
 const fileFilter = (req: Request, file: Express.Multer.File, cb: FileFilterCallback) => {
-  const allowTypes = ['images/jpeg', 'images/png', 'images/jpg']
-  if (!file.mimetype.startsWith('images/')) {
+  const allowTypes = ['image/jpeg', 'image/png', 'image/jpg']
+  if (!file.mimetype.startsWith('image/')) {
     return cb(new Error('File is not image'))
   }
   if (!allowTypes.includes(file.mimetype)) {
