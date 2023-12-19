@@ -28,7 +28,6 @@ router.post(
 )
 
 router.get('/',
- isLoggedIn, isAdmin,
   getAllUsers)
 
 router.get('/:userName', 
