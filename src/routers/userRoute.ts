@@ -23,32 +23,32 @@ router.post(
   '/process-register',
   // validateCreateUser,
   // uploadUser.single('image'),
-  // isLoggedOut,
+  isLoggedOut,
   processRegisterUser
 )
 
 router.get('/',
-//  isLoggedIn, isAdmin,
+ isLoggedIn, isAdmin,
   getAllUsers)
 
 router.get('/:userName', 
-// isLoggedIn, 
+isLoggedIn, 
 getSingleUser)
 
 router.post('/', 
 // validateCreateUser, 
 // runValidation, 
-uploadUser.single('image'), 
+// uploadUser.single('image'), 
 createSingleUser)
 
 router.delete('/:userName', 
-// isLoggedIn, isAdmin, 
+isLoggedIn, isAdmin, 
 deleteSingleUser)
 
 router.put('/:userName', updateSingleUser)
 
 router.post('/activate', 
-// isLoggedOut,
+isLoggedOut,
  activateUser)
 
 router.put('/updateBan/:userName', updateBan)

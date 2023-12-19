@@ -26,6 +26,12 @@ app.get('/', (req: Request, res: Response) => {
   res.status(200).json('Backend project')
 }) 
 
+// app.use(
+//   cors({
+//     origin: 'http://localhost:3000',
+//     credentials: true,
+//   })
+// )
 app.use(cors());
 app.use('/public', express.static('public'))
 app.use(cookieParser())

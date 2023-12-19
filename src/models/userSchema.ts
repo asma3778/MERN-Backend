@@ -25,6 +25,11 @@ const usersSchema = new Schema(
       required: true,
       unique: true,
     },
+    image: {
+      type: String,
+      default: dev.app.defaultUserImagePath,
+      required: false
+    },
     email: {
       type: String,
       required: true,
