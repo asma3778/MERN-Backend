@@ -41,7 +41,8 @@ router.post('/',
 createSingleUser)
 
 router.delete('/:userName', 
-isLoggedIn, isAdmin, 
+// isLoggedIn,
+//  isAdmin, 
 deleteSingleUser)
 
 router.put('/:userName', updateSingleUser)
