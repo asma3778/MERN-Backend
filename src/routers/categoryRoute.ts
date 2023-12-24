@@ -16,12 +16,13 @@ const router = Router()
 router.get('/', getCategories)
 
 router.post('/',
-//  validateCreateCategory, runValidation, isLoggedIn,
-  // isAdmin,
+//  validateCreateCategory, runValidation, 
+isLoggedIn,
+  isAdmin,
    createCategories)
 
 router.put('/:slug', 
-// isLoggedIn, isAdmin, 
+isLoggedIn, isAdmin, 
 updateCategory)
 
 router.delete('/:slug', 

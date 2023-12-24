@@ -37,7 +37,7 @@ import { createHttpError } from '../util/createHTTPError'
 export const getAllProducts = async (req: Request, res: Response, next: NextFunction) => {
   try {
     let page = Number(req.query.page) || 1
-    const limit = Number(req.query.limit) || 3
+    const limit = Number(req.query.limit) || 5
     const search = req.query.search as string
     const { products, totalPage, currentPage } = await findAllProducts(page, limit, search)
     res.send({

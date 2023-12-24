@@ -86,7 +86,7 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
   await new Users(user).save()
 }
 
-export const findAllUsers = async (page = 1, limit = 3, search = '') => {
+export const findAllUsers = async (page = 1, limit = 6, search = '') => {
   const count = await Users.countDocuments()
   const totalPage = Math.ceil(count / limit)
 
@@ -142,7 +142,7 @@ export const forgetPasswordAction = async (email: string): Promise<string> => {
     email: email,
     subject: 'Rest Password Email',
     html: `<h1>Hello ${user.firstName}</h1>
-      <p>Please Click here to  : <a href="http://localhost:5050/users/rest-password/${token}"> rest  your password</a></p>`,
+      <p>Please Click here to  : <a href="http://localhost:3000/users/rest-password/${token}"> rest  your password</a></p>`,
   }
   await handleSendEmail(emailData)
   return token

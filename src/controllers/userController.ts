@@ -68,7 +68,7 @@ export const updateBan = async (req: Request, res: Response, next: NextFunction)
 export const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
   try {
     let page = Number(req.query.page) || 1
-    const limit = Number(req.query.limit) || 3
+    const limit = Number(req.query.limit) || 5
     const search = req.query.search as string
 
     const { users, totalPage, currentPage } = await findAllUsers(page, limit, search)
