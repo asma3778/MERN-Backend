@@ -4,6 +4,7 @@ import slugify from 'slugify'
 import { Products } from '../models/productSchema'
 import { IProduct } from '../types/productTypes'
 import { createHttpError } from '../util/createHTTPError'
+import { uploadToCloudinary } from '../helper/cloudinaryHelper'
 
 export const findProductBySlug = async (slug: string): Promise<IProduct> => {
   const products = await Products.findOne({ slug: slug })
@@ -50,8 +51,8 @@ export const findAllProducts = async (page = 1, limit = 6, search = '') => {
 }
 
 export const createProduct = async (req: Request, res: Response, next: NextFunction) => {
-  const file = req.file
-  const img = file?.path
+  
+  const img = req.file?.path
   const { title, price, description, category, quantity, sold, shipping } = req.body
 
   const productExsist = await Products.exists({ title: title })
@@ -70,6 +71,16 @@ export const createProduct = async (req: Request, res: Response, next: NextFunct
     sold: sold,
     shipping: shipping,
   })
+   // to upload an image to Cloudinary and get the Cloudinary URL
+   const cloudinaryUrl = await uploadToCloudinary(
+    product.image,
+    'sda-ecommerce/products'
+  );
+
+ // adding the cloudinary url to
+  product.image = cloudinaryUrl;
+ // storing the user in the database
   await product.save()
+  console.log(product)
   return product
 }

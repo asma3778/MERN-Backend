@@ -7,7 +7,7 @@ export interface IProduct extends Document {
   title: string
   slug: string
   price: number
-  image: String
+  image: string
   description: string
   quantity: number
   category: ICategory['_id']
