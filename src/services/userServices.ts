@@ -12,6 +12,8 @@ import { generateJwtToken, verifyJwtToken } from '../util/jwtToken'
 export const sendToken = async (req: Request, res: Response, next: NextFunction) => {
   const { firstName, lastName, userName, email, password } = req.body
 
+  const hashedPassword = await bcrypt.hash(password, 10)
+
   const isUserExists = await Users.exists({ email: email })
 
   if (isUserExists) {
@@ -24,7 +26,7 @@ export const sendToken = async (req: Request, res: Response, next: NextFunction)
     lastName: lastName,
     userName: userName,
     email: email,
-    password: password,
+    password: hashedPassword,
   }
 
   const token = jwt.sign(tokenPayload, dev.app.jwtUserActivationKey, { expiresIn: '24h' })

@@ -17,12 +17,12 @@ router.get('/', getCategories)
 
 router.post('/',
 //  validateCreateCategory, runValidation, 
-isLoggedIn,
-  isAdmin,
+// isLoggedIn,
+//   isAdmin,
    createCategories)
 
 router.put('/:slug', 
-isLoggedIn, isAdmin, 
+// isLoggedIn, isAdmin, 
 updateCategory)
 
 router.delete('/:slug', 
