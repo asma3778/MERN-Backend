@@ -24,7 +24,7 @@ export const removeProductBySlug = async (slug: string) => {
   return product
 }
 
-export const findAllProducts = async (page = 1, limit = 6, search = '') => {
+export const findAllProducts = async (page = 1, limit = 10, search = '') => {
   const count = await Products.countDocuments()
   const totalPage = Math.ceil(count / limit)
   const searchRegExp = new RegExp('.*' + search + '.*', 'i')

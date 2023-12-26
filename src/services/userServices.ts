@@ -88,7 +88,7 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
   await new Users(user).save()
 }
 
-export const findAllUsers = async (page = 1, limit = 6, search = '') => {
+export const findAllUsers = async (page = 1, limit = 10, search = '') => {
   const count = await Users.countDocuments()
   const totalPage = Math.ceil(count / limit)
 
